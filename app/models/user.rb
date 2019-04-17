@@ -4,5 +4,5 @@ class User < ApplicationRecord
   has_many :foods, through: :scan
   has_many :foods, through: :favorite
 
-  validates :nickname, :avatar_url, presence: true
+  validates :iv, :encryptedData, presence: true
 end

@@ -3,17 +3,14 @@ Food.destroy_all
 Scan.destroy_all
 
 User.create!(
-  nickname: 'Luke',
-  avatar_url: 'https://picsum.photos/200/300',
-  city: 'Shenzhen',
-  province: 'Guangdong'
+  iv: 'Luke',
+  encryptedData: 'https://picsum.photos/200/300',
 )
 
 User.create!(
-  nickname: 'Sofa',
-  avatar_url: 'https://picsum.photos/200/300',
-  city: 'JinGan',
-  province: 'Shanghai'
+  iv: 'Sofa',
+  encryptedData: 'https://picsum.photos/200/300',
+
 )
 
 Food.create!(
