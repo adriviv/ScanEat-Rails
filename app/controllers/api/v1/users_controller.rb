@@ -1,17 +1,16 @@
 class Api::V1::UsersController < Api::V1::BaseController
 
   def create
+    user_decrypted = WxbizDataCrypt.new
+    result = user_decrypted.decrypt(params[:user][:encryptedData], params[:user][:iv])
 
+  @user = User.create!(new_information)
 
-
-
-  @user = User.create!(user_params)
-
-    if @user.save
-      render json: response, status: :created
-     else
-      render json: @user.errors, status: :bad
-    end
+     if @user.save
+       render json: {}, status: :created
+      else
+       render json: @user.errors, status: :bad
+     end
   end
 
 
@@ -19,8 +18,8 @@ class Api::V1::UsersController < Api::V1::BaseController
   private
 
   def user_params
-
     params.require(:user).permit(:iv, :encryptedData)
-
   end
+
+
 end

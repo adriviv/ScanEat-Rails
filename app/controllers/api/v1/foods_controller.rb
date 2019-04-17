@@ -5,7 +5,6 @@ class Api::V1::FoodsController < Api::V1::BaseController
 
     product_object = ProductLookup.new(product_params)
 
-puts "hello"
     nutrician_info = product_object.get_product_infos()
     puts nutrician_info
 
