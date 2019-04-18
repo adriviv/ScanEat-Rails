@@ -1,10 +1,7 @@
 class Api::V1::ScansController < Api::V1::BaseController
 
   def index
-
     @scans = Scan.where(user_id: params[:user_id])
-    puts "#{@scans}"
-
   end
 
   def show
