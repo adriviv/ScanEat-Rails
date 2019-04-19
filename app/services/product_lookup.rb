@@ -1,28 +1,28 @@
-# 1) ========================================
-
-require 'httparty' # Something in the Gem File ??? Add one
+require 'httparty'
 
 class ProductLookup
 
   def initialize(barcode)
     @barcode = barcode
-
   end
 
-
   def to_fiber_nutriment_level(fiber_quantity)
-    if fiber_quantity.to_i > 0
+    if fiber_quantity.to_i > 0 && fiber_quantity.to_i < 3.5
       fiber_nutrient_level = "high"
+    elsif fiber_quantity.to_i >= 3.5
+      fiber_nutrient_level = "very_high"
       return fiber_nutrient_level
-    else
     end
+    return fiber_nutrient_level
   end
 
   def to_protein_nutriment_level(protein_quantity)
-    if protein_quantity.to_i > 0
+    if protein_quantity.to_i > 0 && protein_quantity.to_i < 8
       protein_nutrient_level = "high"
-    else
+    elsif protein_quantity.to_i >= 8
+      protein_nutrient_level = "very_high"
     end
+    return protein_nutrient_level
   end
 
   def to_calories_quantity_kcal(calories_quantity)
@@ -33,23 +33,23 @@ class ProductLookup
   def to_calories_nutrient_level(category, calories_quantity)
     if category.include?("en:beverages")
       if calories_quantity.to_i < 4.184
-         calories_nutriment_level = "very_low"
+        "very_low"
       elsif calories_quantity.to_i >= 4.184 && calories_quantity.to_f < 58.576
-        calories_nutriment_level = "low"
+        "low"
       elsif calories_quantity.to_i >= 58.576 && calories_quantity.to_f < 146.44
-        calories_nutriment_level = "moderate"
+         "moderate"
       elsif calories_quantity.to_i >= 146.44
-        calories_nutriment_level = "high"
+         "high"
       end
     else
       if calories_quantity.to_i < 669
-        calories_nutriment_level = "very_low"
-         elsif calories_quantity.to_i > 669 && calories_quantity.to_i < 1506
-        calories_nutriment_level = "low"
+        "very_low"
+      elsif calories_quantity.to_i > 669 && calories_quantity.to_i < 1506
+        "low"
       elsif calories_quantity.to_i > 1506 && calories_quantity.to_i < 3347
-        calories_nutriment_level = "moderate"
+        "moderate"
       elsif calories_quantity.to_i > 3347
-        calories_nutriment_level = "high"
+        "high"
       end
     end
   end
@@ -78,13 +78,16 @@ class ProductLookup
     return ingredients_clean
   end
 
-   def to_category(category)
+  def to_category(category)
     if category.include?('en:beverages')
       return'beverage'
     else
       return 'other'
     end
+  end
 
+  def to_brand(brand)
+  brand_clean = brand.gsub(","," - ")
   end
 
   def to_labels(labels)
@@ -119,26 +122,28 @@ class ProductLookup
     end
   end
 
+# ===========================================================================#
+# ===========================================================================#
+
+
   def get_product_infos
     response = HTTParty.get("https://world.openfoodfacts.org/api/v0/product/#{@barcode}.json")
-
-# 2) ========================================
-    #response.parsed_response <----- I read that on stackoverflow, should I add it ????
     body = JSON.parse(response.body)
-    category = body["product"]["categories_tags"]
 
+    category = body["product"]["categories_tags"]
     calories_quantity = body["product"]["nutriments"]["energy_100g"]
     protein_quantity = body["product"]["nutriments"]["proteins_100g"]
     fiber_quantity = body["product"]["nutriments"]["fiber_100g"]
-
     additives = body["product"]["additives_original_tags"]
     ingredients = body["product"]["ingredients_tags"]
     allergens = body["product"]["allergens_tags"]
     labels = body["product"]["labels_tags"]
+    brand = body["product"]["brands"]
+
     {
       barcode: body["code"],
       product_name: body["product"]["product_name"],
-      brand: body["product"]["brands"],
+      brand: to_brand(brand),
       nutrition_grade: body["product"]["nutrition_grade_fr"],
       salt_quantity: body["product"]["nutriments"]["salt_100g"],
       salt_nutrient_level: body["product"]["nutrient_levels"]["salt"],
@@ -151,7 +156,6 @@ class ProductLookup
       status: body["status_verbose"],
       protein_quantity: protein_quantity,
 
-
       category: to_category(category),
       fiber_quantity: fiber_quantity,
       ingredients: to_ingredients(ingredients),
@@ -159,16 +163,12 @@ class ProductLookup
       allergens: to_allergens(allergens),
       labels: to_labels(labels),
 
-
       calories_quantity: to_calories_quantity_kcal(calories_quantity),
       calories_nutrient_level: to_calories_nutrient_level(category, calories_quantity),
-
       protein_nutrient_level: to_protein_nutriment_level(protein_quantity),
       fiber_nutrient_level: to_fiber_nutriment_level(fiber_quantity),
 
       calories_percentage: to_calories_percentage(category, calories_quantity)
-
     }
   end
-
 end
