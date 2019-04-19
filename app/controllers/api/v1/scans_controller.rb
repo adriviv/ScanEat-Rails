@@ -1,4 +1,5 @@
 class Api::V1::ScansController < Api::V1::BaseController
+  before_action :set_project, only: [:show]
 
   def index
     @scans = Scan.where(user_id: params[:user_id])
@@ -21,6 +22,10 @@ class Api::V1::ScansController < Api::V1::BaseController
   end
 
   private
+
+  def set_project
+    @scan = Scan.find(params[:id])
+  end
 
   def product_params
     params.require(:barcode)
