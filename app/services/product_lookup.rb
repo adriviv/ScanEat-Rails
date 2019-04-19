@@ -50,12 +50,29 @@ class ProductLookup
     end
   end
 
-  # def to_category(category)
-  #   category_debug = category.maps do |category|
-  #     category.gsub(/en:|fr:.*|,/, "")
-  #   end
-  #   return category_debug
-  # end
+   def to_ingredients(ingredients)
+    ingredients_debug = ingredients.map do |ingredients|
+      ingredients.gsub(/en:|fr:.*|,/, "")
+    end
+    ingredients_clean = ingredients_debug.join(" ")
+    return ingredients_clean
+  end
+
+   def to_category(category)
+    category_debug = category.map do |category|
+      category.gsub(/en:|fr:.*|,/, "")
+    end
+    category_clean = category_debug.join(" ")
+    return category_clean
+  end
+
+  def to_labels(labels)
+    label_debug = labels.map do |label|
+      label.gsub(/en:|fr:.*|,/, "")
+    end
+    label_clean = label_debug.join(" ")
+    return label_clean
+  end
 
   def get_product_infos
     response = HTTParty.get("https://world.openfoodfacts.org/api/v0/product/#{@barcode}.json")
@@ -70,7 +87,7 @@ class ProductLookup
     fiber_quantity = body["product"]["nutriments"]["fiber_100g"]
 
     additives = body["product"]["additives_original_tags"]
-    ingredients =  body["product"]["ingredients_tags"]
+    ingredients = body["product"]["ingredients_tags"]
     allergens = body["product"]["allergens_tags"]
     labels = body["product"]["labels_tags"]
     {
@@ -90,12 +107,12 @@ class ProductLookup
       protein_quantity: protein_quantity,
 
 
-      category: category,
+      category: to_category(category),
       fiber_quantity: fiber_quantity,
-      ingredients: ingredients,
+      ingredients: to_ingredients(ingredients),
       additives: additives,
       allergens: allergens,
-      labels: labels,
+      labels: to_labels(labels),
 
 
       calories_quantity: to_calories_quantity_kcal(calories_quantity),
