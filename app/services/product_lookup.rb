@@ -50,45 +50,56 @@ class ProductLookup
     end
   end
 
+  # def to_category(category)
+  #   category_debug = category.maps do |category|
+  #     category.gsub(/en:|fr:.*|,/, "")
+  #   end
+  #   return category_debug
+  # end
+
   def get_product_infos
     response = HTTParty.get("https://world.openfoodfacts.org/api/v0/product/#{@barcode}.json")
 
 # 2) ========================================
     #response.parsed_response <----- I read that on stackoverflow, should I add it ????
     body = JSON.parse(response.body)
-    category = body["product"]["categories"]
+    category = body["product"]["categories_tags"]
 
     calories_quantity = body["product"]["nutriments"]["energy_100g"]
     protein_quantity = body["product"]["nutriments"]["proteins_100g"]
     fiber_quantity = body["product"]["nutriments"]["fiber_100g"]
 
+    additives = body["product"]["additives_original_tags"]
+    ingredients =  body["product"]["ingredients_tags"]
+    allergens = body["product"]["allergens_tags"]
+    labels = body["product"]["labels_tags"]
     {
       barcode: body["code"],
       product_name: body["product"]["product_name"],
-      brand: body["product"]["brands_tags"],
-      nutrition_grade: body["product"]["nutrition_grades_tags"],
+      brand: body["product"]["brands"],
+      nutrition_grade: body["product"]["nutrition_grade_fr"],
       salt_quantity: body["product"]["nutriments"]["salt_100g"],
       salt_nutrient_level: body["product"]["nutrient_levels"]["salt"],
       saturated_fat_quantity: body["product"]["nutriments"]["saturated-fat_100g"],
       saturated_fat_nutrient_level: body["product"]["nutrient_levels"]["saturated-fat"],
       sugar_quantity: body["product"]["nutriments"]["sugars_100g"],
       sugar_nutrient_level: body["product"]["nutrient_levels"]["sugars"],
-      ingredients: body["product"]["ingredients_text_debug"],
-      allergens: body["product"]["allergens_tags"],
-      packaging_type: body["product"]["packaging_tags"],
-      labels: body["product"]["labels_tags"],
+      packaging_type: body["product"]["packaging"],
       image_url: body["product"]["image_small_url"],
-      additives: body["product"]["additives_original_tags"],
       status: body["status_verbose"],
       protein_quantity: protein_quantity,
+
+
       category: category,
       fiber_quantity: fiber_quantity,
+      ingredients: ingredients,
+      additives: additives,
+      allergens: allergens,
+      labels: labels,
 
 
       calories_quantity: to_calories_quantity_kcal(calories_quantity),
       calories_nutrient_level: to_calories_nutrient_level(category, calories_quantity),
-
-
 
       protein_nutrient_level: to_protein_nutriment_level(protein_quantity),
       fiber_nutrient_level: to_fiber_nutriment_level(fiber_quantity)
