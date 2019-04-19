@@ -18,7 +18,9 @@ class Api::V1::ScansController < Api::V1::BaseController
     @food.save
 
     @scan = Scan.new(user_id: @user.id, food_id: @food.id)
-    @scan.save
+    render json: @food, status: :created if @scan.save
+
+
   end
 
   private
