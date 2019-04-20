@@ -135,15 +135,27 @@ class ProductLookup
     end
   end
 
-  def to_sugar_percentage(sugar_quantity)
-    if sugar_quantity.to_f < 9
-      return (sugar_quantity.to_f)/9 * 25
-    elsif sugar_quantity.to_f >= 9 && sugar_quantity.to_f < 18
-      return (sugar_quantity.to_f - 9)/ 2 * 25 + 25
-    elsif sugar_quantity.to_f >= 18 && sugar_quantity.to_f < 31
-      return (sugar_quantity.to_f - 18)/ (31-18) * 25 + 50
-    elsif sugar_quantity.to_f >= 31
-      return (sugar_quantity.to_f - 31)/ (45-31) * 25 + 75
+  def to_sugar_percentage(category, sugar_quantity)
+    if category.include?('en:beverages')
+      if (salt_quantity.to_f)*10 < 15
+        return (salt_quantity.to_f)/15 * 25
+      elsif (salt_quantity.to_f)*10 >= 15 && salt_quantity.to_f < 30
+        return ((salt_quantity.to_f - 15)) / 2 * 25 + 25
+      elsif salt_quantity.to_f >= 3 && salt_quantity.to_f < 7
+        return ((salt_quantity.to_f) - 3) / 4 * 25 + 50
+      elsif salt_quantity.to_f >= 7
+        return ((salt_quantity.to_f) - 7 )/6 * 25 +75
+      end
+    else
+      if sugar_quantity.to_f < 9
+        return (sugar_quantity.to_f)/9 * 25
+      elsif sugar_quantity.to_f >= 9 && sugar_quantity.to_f < 18
+        return (sugar_quantity.to_f - 9)/ 2 * 25 + 25
+      elsif sugar_quantity.to_f >= 18 && sugar_quantity.to_f < 31
+        return (sugar_quantity.to_f - 18)/ (31-18) * 25 + 50
+      elsif sugar_quantity.to_f >= 31
+        return (sugar_quantity.to_f - 31)/ (45-31) * 25 + 75
+      end
     end
   end
 
@@ -225,7 +237,7 @@ end
 
       calories_percentage: to_calories_percentage(category, calories_quantity),
       salt_percentage: to_salt_percentage(salt_quantity),
-      sugar_percentage: to_sugar_percentage(sugar_quantity),
+      sugar_percentage: to_sugar_percentage(category, sugar_quantity),
 
       saturated_fat_percentage: to_saturated_fat_percentage(saturated_fat_quantity),
 
