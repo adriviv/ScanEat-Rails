@@ -160,7 +160,7 @@ class ProductLookup
   end
 
   def to_protein_percentage(protein_quantity)
-   (protein_quantity.to_f)*0.16*100
+   (protein_quantity.to_f)/16*100
   end
 
   def to_fiber_percentage(fiber_quantity)
