@@ -46,9 +46,9 @@ class ProductLookup
         "very_low"
       elsif calories_quantity.to_i > 669 && calories_quantity.to_i < 1506
         "low"
-      elsif calories_quantity.to_i > 1506 && calories_quantity.to_i < 3347
+      elsif calories_quantity.to_i > 1506 && calories_quantity.to_i < 2343
         "moderate"
-      elsif calories_quantity.to_i > 3347
+      elsif calories_quantity.to_i > 2347
         "high"
       end
     end
@@ -56,7 +56,7 @@ class ProductLookup
 
   def to_additives(additives)
     additives_debug = additives.map do |additives|
-      additives.gsub(/en:|fr:.*||es:.*|,/, "")
+      additives.gsub(/en:|fr:.*||es:.*||de:.*|,/, "")
     end
     additives_clean = additives_debug.join(" ")
     return additives_clean
@@ -180,6 +180,20 @@ def to_saturated_fat_percentage(saturated_fat_quantity)
   end
 end
 
+def to_nutrition_grade(nutrition_grade)
+  case
+    when nutrition_grade == 'a'
+      return 'Very Good'
+    when nutrition_grade == 'b'
+      return 'Good'
+    when nutrition_grade == 'c'
+      return 'Medium'
+    when nutrition_grade == 'd'
+      return 'Bad'
+    when nutrition_grade == 'e'
+      return 'Very Bad'
+    end
+end
 
 
 # ===========================================================================#
@@ -204,13 +218,12 @@ end
     saturated_fat_quantity = body["product"]["nutriments"]["saturated-fat_100g"]
 
     salt_quantity = body["product"]["nutriments"]["salt_100g"]*100.0
-
-
+    nutrition_grade = body["product"]["nutrition_grade_fr"]
     {
       barcode: body["code"],
       product_name: body["product"]["product_name"],
       brand: to_brand(brand),
-      nutrition_grade: body["product"]["nutrition_grade_fr"],
+      nutrition_grade: to_nutrition_grade(nutrition_grade),
       salt_quantity: salt_quantity,
       salt_nutrient_level: body["product"]["nutrient_levels"]["salt"],
       saturated_fat_quantity: saturated_fat_quantity,
