@@ -122,6 +122,54 @@ class ProductLookup
     end
   end
 
+
+  def to_salt_percentage(salt_quantity)
+    if salt_quantity.to_f < 46
+      return (salt_quantity.to_f)/46 * 25
+    elsif salt_quantity.to_f >= 46 && salt_quantity.to_f < 92
+      return ((salt_quantity.to_f - 46)) / (92 - 46) * 25 + 25
+    elsif salt_quantity.to_f >= 92 && salt_quantity.to_f < 162
+      return ((salt_quantity.to_f) - 92) / (162 - 92) * 25 + 50
+    elsif salt_quantity.to_f >= 162
+      return ((salt_quantity.to_f) - 162)/(230-162 ) * 25 +75
+    end
+  end
+
+  def to_sugar_percentage(sugar_quantity)
+    if sugar_quantity.to_f < 9
+      return (sugar_quantity.to_f)/9 * 25
+    elsif sugar_quantity.to_f >= 9 && sugar_quantity.to_f < 18
+      return (sugar_quantity.to_f - 9)/ 2 * 25 + 25
+    elsif sugar_quantity.to_f >= 18 && sugar_quantity.to_f < 31
+      return (sugar_quantity.to_f - 18)/ (31-18) * 25 + 50
+    elsif sugar_quantity.to_f >= 31
+      return (sugar_quantity.to_f - 31)/ (45-31) * 25 + 75
+    end
+  end
+
+  def to_protein_percentage(protein_quantity)
+   (protein_quantity.to_f)*0.16*100
+  end
+
+  def to_fiber_percentage(fiber_quantity)
+   (fiber_quantity.to_f)*0.07*100
+  end
+
+
+def to_saturated_fat_percentage(saturated_fat_quantity)
+  if saturated_fat_quantity.to_f < 2
+    return (saturated_fat_quantity.to_f)/2 * 25
+  elsif saturated_fat_quantity.to_f >= 2 && saturated_fat_quantity.to_f < 4
+    return ((saturated_fat_quantity.to_f)-2)/2 * 25 + 25
+  elsif saturated_fat_quantity.to_f >= 4 && saturated_fat_quantity.to_f < 7
+    return ((saturated_fat_quantity.to_f)-4)/3 * 25 + 50
+  elsif saturated_fat_quantity.to_f >= 7
+    return ((saturated_fat_quantity.to_f)-7)/3 * 25 + 75
+  end
+end
+
+
+
 # ===========================================================================#
 # ===========================================================================#
 
@@ -139,17 +187,24 @@ class ProductLookup
     allergens = body["product"]["allergens_tags"]
     labels = body["product"]["labels_tags"]
     brand = body["product"]["brands"]
+    sugar_quantity = body["product"]["nutriments"]["sugars_100g"]
+
+    saturated_fat_quantity = body["product"]["nutriments"]["saturated-fat_100g"]
+
+    salt_quantity = body["product"]["nutriments"]["salt_100g"]*100.0
+
 
     {
       barcode: body["code"],
       product_name: body["product"]["product_name"],
       brand: to_brand(brand),
       nutrition_grade: body["product"]["nutrition_grade_fr"],
-      salt_quantity: body["product"]["nutriments"]["salt_100g"],
+      salt_quantity: salt_quantity,
       salt_nutrient_level: body["product"]["nutrient_levels"]["salt"],
-      saturated_fat_quantity: body["product"]["nutriments"]["saturated-fat_100g"],
+      saturated_fat_quantity: saturated_fat_quantity,
+
       saturated_fat_nutrient_level: body["product"]["nutrient_levels"]["saturated-fat"],
-      sugar_quantity: body["product"]["nutriments"]["sugars_100g"],
+      sugar_quantity: sugar_quantity,
       sugar_nutrient_level: body["product"]["nutrient_levels"]["sugars"],
       packaging_type: body["product"]["packaging"],
       image_url: body["product"]["image_small_url"],
@@ -168,7 +223,15 @@ class ProductLookup
       protein_nutrient_level: to_protein_nutriment_level(protein_quantity),
       fiber_nutrient_level: to_fiber_nutriment_level(fiber_quantity),
 
-      calories_percentage: to_calories_percentage(category, calories_quantity)
+      calories_percentage: to_calories_percentage(category, calories_quantity),
+      salt_percentage: to_salt_percentage(salt_quantity),
+      sugar_percentage: to_sugar_percentage(sugar_quantity),
+
+      saturated_fat_percentage: to_saturated_fat_percentage(saturated_fat_quantity),
+
+      protein_percentage: to_protein_percentage(protein_quantity),
+      fiber_percentage: to_fiber_percentage(fiber_quantity)
+
     }
   end
 end
