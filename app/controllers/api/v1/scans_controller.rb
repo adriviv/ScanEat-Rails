@@ -5,6 +5,41 @@ class Api::V1::ScansController < Api::V1::BaseController
     @scans = Scan.where(user_id: params[:user_id])
   end
 
+  def statisitics
+
+total_scans = Scan.where(user_id: params[:user_id]).count
+statisitics_number = Scan.where(user_id: params[:user_id]).joins(:food)
+
+very_bad_nutrition_number = statisitics_number.where(foods: {nutrition_grade: 'Very Bad'}).count
+very_bad_nutrition_percentage = very_bad_nutrition_number.to_f / total_scans.to_f * 100
+bad_nutrition_number = statisitics_number.where(foods: {nutrition_grade: 'Bad'}).count
+bad_nutrition_percentage = bad_nutrition_number.to_f / total_scans.to_f * 100
+medium_nutrition_number = statisitics_number.where(foods: {nutrition_grade: 'medium'}).count
+medium_nutrition_percentage = medium_nutrition_number.to_f / total_scans.to_f * 100
+good_nutrition_number = statisitics_number.where(foods: {nutrition_grade: 'good'}).count
+good_nutrition_percentage = good_nutrition_number.to_f / total_scans.to_f * 100
+very_good_nutrition_number = statisitics_number.where(foods: {nutrition_grade: 'very_good'}).count
+very_good_nutrition_percentage = very_good_nutrition_number.to_f / total_scans.to_f * 100
+# non = User.last.scans[0].food.protein_percentage
+     #render json: total_scans
+     render json: {
+      very_bad_nutrition_percentage: very_bad_nutrition_percentage,
+      very_bad_nutrition_number: very_bad_nutrition_number,
+      bad_nutrition_percentage: bad_nutrition_percentage,
+      bad_nutrition_number: bad_nutrition_number,
+      medium_nutrition_percentage: medium_nutrition_percentage,
+      medium_nutrition_number: medium_nutrition_number,
+      good_nutrition_percentage: good_nutrition_percentage,
+      good_nutrition_number: good_nutrition_number,
+      very_good_nutrition_percentage: very_good_nutrition_percentage,
+      very_good_nutrition_number: very_good_nutrition_number,
+    }
+  end
+
+
+
+
+
   def show
   end
 

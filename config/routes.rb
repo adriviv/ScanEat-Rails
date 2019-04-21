@@ -10,7 +10,12 @@ Rails.application.routes.draw do
 
       resources :users, only: [:create] do
 
-      resources :scans, only: [:index, :show, :create]
+      resources :scans, only: [:index, :show, :create] do
+        collection do
+      get :statisitics
+    end
+    end
+
 
       # resources :foods, only: [:create]
 
