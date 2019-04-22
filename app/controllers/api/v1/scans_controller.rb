@@ -12,7 +12,7 @@ class Api::V1::ScansController < Api::V1::BaseController
     @user = User.find(params[:user_id])
     product_object = ProductLookup.new(product_params)
     nutrician_info = product_object.get_product_infos()
-    puts "heloooooo #{nutrician_info}"
+
 
     @food = Food.find_or_create_by(nutrician_info)
     @food.save
