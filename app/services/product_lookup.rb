@@ -136,15 +136,16 @@ class ProductLookup
   end
 
   def to_sugar_percentage(category, sugar_quantity)
+    puts "sugar_test #{sugar_quantity}"
     if category.include?('en:beverages')
-      if (salt_quantity.to_f)*10 < 15
-        return (salt_quantity.to_f)/15 * 25
-      elsif (salt_quantity.to_f)*10 >= 15 && salt_quantity.to_f < 30
-        return ((salt_quantity.to_f - 15)) / 2 * 25 + 25
-      elsif salt_quantity.to_f >= 3 && salt_quantity.to_f < 7
-        return ((salt_quantity.to_f) - 3) / 4 * 25 + 50
-      elsif salt_quantity.to_f >= 7
-        return ((salt_quantity.to_f) - 7 )/6 * 25 +75
+      if (sugar_quantity.to_f)*10 < 15
+        return (sugar_quantity.to_f)/15 * 25
+      elsif (sugar_quantity.to_f)*10 >= 15 && sugar_quantity.to_f < 3
+        return ((sugar_quantity.to_f - 15)) / 2 * 25 + 25
+      elsif sugar_quantity.to_f >= 3 && sugar_quantity.to_f < 7
+        return ((sugar_quantity.to_f) - 3) / 4 * 25 + 50
+      elsif sugar_quantity.to_f >= 7
+        return ((sugar_quantity.to_f)-7)/6+75
       end
     else
       if sugar_quantity.to_f < 9
@@ -192,6 +193,7 @@ def to_nutrition_grade(nutrition_grade)
       return 'Bad'
     when nutrition_grade == 'e'
       return 'Very Bad'
+    when
     end
 end
 
