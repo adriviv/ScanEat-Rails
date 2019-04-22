@@ -4,9 +4,9 @@ class Api::V1::FoodsController < Api::V1::BaseController
     product_object = ProductLookup.new(product_params)
 
     nutrician_info = product_object.get_product_infos()
-    puts nutrician_info
+    puts " helooooooo #{nutrician_info}"
 
-    @food = Food.new(nutrician_info)
+    @food = Food.find_or_create_by(nutrician_info)
     if @food.save
       # @scan = Scan.new(user_id: 1, food_id: @food.id)
       render json: {}, status: :created
