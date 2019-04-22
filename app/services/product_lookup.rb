@@ -193,6 +193,7 @@ def to_nutrition_grade(nutrition_grade)
       return 'Bad'
     when nutrition_grade == 'e'
       return 'Very Bad'
+    when
     end
 end
 
