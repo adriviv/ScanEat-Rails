@@ -69,7 +69,6 @@ ActiveRecord::Schema.define(version: 2019_04_20_040518) do
   end
 
   create_table "sessions", force: :cascade do |t|
-    t.string "code"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "openid"
