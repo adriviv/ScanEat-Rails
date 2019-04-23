@@ -63,11 +63,15 @@ class ProductLookup
   end
 
   def to_allergens(allergens)
-    allergens_debug = allergens.map do |allergens|
-      allergens.gsub(/en:|fr:.*||es:.*|,/, "")
+    if allergens.empty?
+      return "No allegerns detected"
+    else
+      allergens_debug = allergens.map do |allergens|
+        allergens.gsub(/en:|fr:.*|es:.*|zh:/, "")
+      end
+      allergens_clean = allergens_debug.join(" ")
+      return allergens_clean
     end
-    allergens_clean = allergens_debug.join(" ")
-    return allergens_clean
   end
 
    def to_ingredients(ingredients)
@@ -193,7 +197,9 @@ def to_nutrition_grade(nutrition_grade)
       return 'Bad'
     when nutrition_grade == 'e'
       return 'Very Bad'
-  end
+    when nutrition_grade == 'e'
+      return "The nutrition grade is undefined"
+    end
 end
 
 
