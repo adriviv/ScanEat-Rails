@@ -1,27 +1,28 @@
 class Api::V1::FoodsController < Api::V1::BaseController
 
   def create
-    product_object = ProductLookup.new(product_params)
-
-    nutrician_info = product_object.get_product_infos()
-    puts " helooooooo #{nutrician_info}"
-
-    @food = Food.find_or_create_by(nutrician_info)
+    puts '2'
+    @food = Food.new(food_params)
+    puts'3'
+    # authorize @project
     if @food.save
-      # @scan = Scan.new(user_id: 1, food_id: @food.id)
-      render json: {}, status: :created
+          puts'4'
+
+      render json: @food , status: :created
     else
       render_error
     end
   end
 
-  def destroy
-  end
+
 
 
 
   private
 
+ def food_params
+    params.require(:food).permit(:product_name, :brand, :salt_quantity, :protein_quantity, :fiber_quantity, :calories_quantity, :sugar_quantity, :saturated_fat_quantity)
+  end
 
 
   def product_params
