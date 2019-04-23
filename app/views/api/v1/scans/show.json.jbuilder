@@ -1,0 +1,3 @@
+
+  json.extract! @scan, :food
+
