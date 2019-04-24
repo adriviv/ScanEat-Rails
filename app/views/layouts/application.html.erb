@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+
 <html>
   <head>
     <meta charset="UTF-8">
@@ -7,6 +7,13 @@
     <%= csrf_meta_tags %>
     <%= action_cable_meta_tag %>
     <%= stylesheet_link_tag 'application', media: 'all' %>
+
+    <meta property="og:title" content="<%= Scan-Eat - Find food nutritional value using our scanner %>" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="<%= https://scaneat.wogengapp.cn %>" />
+    <meta property="og:image" content="<%= images.cover.jpg %>" />
+    <meta property="og:description" content="<%= The first wechat mini-program that determines the quality of food by scanning its barcode %>" />
+    <meta property="og:site_name" content="<%= Scan-Eat - Find food nutritional value using our scanner %>" />
     <%#= stylesheet_pack_tag 'application', media: 'all' %> <!-- Uncomment if you import CSS in app/javascript/packs/application.js -->
   </head>
   <body>
