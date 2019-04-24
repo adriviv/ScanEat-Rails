@@ -22,7 +22,7 @@ puts '5'
     puts '6'
     @food.save
 puts '7'
-    @scan = Scan.find_or_create_by(user_id: @user.id, food_id: @food.id)
+    @scan = Scan.new(user_id: @user.id, food_id: @food.id)
     puts '8'
     render json: @food, status: :created if @scan.save
     puts '9'
