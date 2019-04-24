@@ -29,6 +29,21 @@ puts '7'
   end
 
 
+# Old version
+  # def create
+  #   @user = User.find(params[:user_id])
+  #   product_object = ProductLookup.new(product_params)
+  #   nutrician_info = product_object.get_product_infos()
+
+
+  #   @food = Food.find_or_create_by(nutrician_info)
+  #   @food.save
+
+  #   @scan = Scan.new(user_id: @user.id, food_id: @food.id)
+  #   render json: @food, status: :created if @scan.save
+  # end
+
+
   def statisitics
 
     total_scans = Scan.where(user_id: params[:user_id]).count

@@ -1,0 +1,4 @@
+meta_product_name: "Scan-Eat"
+meta_title: "Scan-Eat - Find food nutritional value using our scanner"
+meta_description: "The first wechat mini-program that determines the quality of food by scanning its barcode"
+meta_image: "cover.jpg" # should exist in `app/assets/images/`
