@@ -1,11 +1,12 @@
 class Proposition < ApplicationRecord
+belongs_to :user
 
 validates :barcode, presence: true
 validates :product_name, presence: true
 validates :brand, presence: true
 validates :category, presence: true
 validates :ingredients, presence: true
-validates :image_url, presence: true
+#validates :image_url, presence: true
 
 validates :salt_quantity, presence: true
 validates :calories_quantity, presence: true

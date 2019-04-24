@@ -3,7 +3,7 @@ class Api::V1::PropositionsController < Api::V1::BaseController
   def create
     puts'hello1'
     @proposition = Proposition.new(proposition_params)
-    puts'hello2'
+    puts"hello2 #{proposition_params}"
     if @proposition.save
       puts'hello3'
       render json: @proposition, status: :created
@@ -17,9 +17,10 @@ class Api::V1::PropositionsController < Api::V1::BaseController
 
   def proposition_params
     params.require(:proposition).permit(:barcode,
+      :user_id,
       :brand,
       :product_name,
-      :image_url,
+      #:image_url,
       :ingredients,
       :category,
       :calories_quantity,
