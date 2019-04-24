@@ -45,7 +45,7 @@ class Api::V1::FavoritesController < Api::V1::BaseController
 
 
     if @favorite.save
-      render json: { testing: 123 }
+      render json: @favorite.id
     else
        render_error
      end
