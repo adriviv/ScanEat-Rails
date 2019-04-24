@@ -197,7 +197,7 @@ def to_nutrition_grade(nutrition_grade)
       return 'Bad'
     when nutrition_grade == 'e'
       return 'Very Bad'
-    when nutrition_grade == 'e'
+    when nutrition_grade == 'null'
       return "The nutrition grade is undefined"
     end
 end

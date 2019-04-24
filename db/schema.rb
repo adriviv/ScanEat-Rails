@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_04_20_040518) do
+ActiveRecord::Schema.define(version: 2019_04_24_010206) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -59,6 +59,25 @@ ActiveRecord::Schema.define(version: 2019_04_20_040518) do
     t.integer "fiber_percentage"
   end
 
+  create_table "propositions", force: :cascade do |t|
+    t.string "product_name"
+    t.string "brand"
+    t.float "salt_quantity"
+    t.integer "calories_quantity"
+    t.float "protein_quantity"
+    t.float "saturated_fat_quantity"
+    t.float "fiber_quantity"
+    t.float "sugar_quantity"
+    t.string "image_url"
+    t.string "barcode"
+    t.string "category"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "ingredients"
+    t.bigint "user_id"
+    t.index ["user_id"], name: "index_propositions_on_user_id"
+  end
+
   create_table "scans", force: :cascade do |t|
     t.bigint "user_id"
     t.bigint "food_id"
@@ -86,6 +105,7 @@ ActiveRecord::Schema.define(version: 2019_04_20_040518) do
 
   add_foreign_key "favorites", "foods"
   add_foreign_key "favorites", "users"
+  add_foreign_key "propositions", "users"
   add_foreign_key "scans", "foods"
   add_foreign_key "scans", "users"
 end
