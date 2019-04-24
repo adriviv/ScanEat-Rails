@@ -76,7 +76,7 @@ class ProductLookup
 
    def to_ingredients(ingredients)
     ingredients_debug = ingredients.map do |ingredients|
-      ingredients.gsub(/en:|fr:.*||es:.*|,/, "")
+      ingredients.gsub(/en:|zh:|fr:.+?(?=,)|es:.+?(?=,)|de:.+?(?=,)|it:.+?(?=,)|nl:.+?(?=,)|,/, "")
     end
     ingredients_clean = ingredients_debug.join(" ")
     return ingredients_clean
