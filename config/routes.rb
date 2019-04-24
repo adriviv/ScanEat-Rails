@@ -21,6 +21,9 @@ Rails.application.routes.draw do
 
       resources :favorites, only: [:create, :index, :show, :destroy]
 
+      resources :propositions, only: [:create]
+
+
       end
 
     end
