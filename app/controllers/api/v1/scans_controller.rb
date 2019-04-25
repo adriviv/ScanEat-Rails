@@ -9,24 +9,18 @@ class Api::V1::ScansController < Api::V1::BaseController
   end
 
   def create
-    puts '1'
     @user = User.find(params[:user_id])
-    puts '2'
     product_object = ProductLookup.new(product_params)
-    puts '3'
     nutrician_info = product_object.get_product_infos()
-    puts '4'
 
-puts '5'
     @food = Food.find_or_create_by(nutrician_info)
-    puts '6'
     @food.save
-puts '7'
     @scan = Scan.new(user_id: @user.id, food_id: @food.id)
-    puts '8'
+
     render json: @food, status: :created if @scan.save
-    puts '9'
+
   end
+
 
 
 # Old version
