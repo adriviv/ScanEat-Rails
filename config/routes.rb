@@ -17,7 +17,7 @@ Rails.application.routes.draw do
         end
 
 
-      resources :foods, only: [:create]
+      resources :foods, only: [:create, :show]
 
       resources :favorites, only: [:create, :index, :show, :destroy]
 

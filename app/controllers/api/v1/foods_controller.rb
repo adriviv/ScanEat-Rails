@@ -9,6 +9,15 @@ class Api::V1::FoodsController < Api::V1::BaseController
     end
   end
 
+  def show
+    @food = Food.find(params[:id])
+
+    render json: { food: @food }
+
+        # @scans = Scan.where(user_id: params[:user_id])
+
+  end
+
 
   private
 

@@ -50,13 +50,13 @@ class Api::V1::ScansController < Api::V1::BaseController
     bad_nutrition_number = statisitics_number.where(foods: {nutrition_grade: 'Bad'}).count
     bad_nutrition_percentage = (bad_nutrition_number.to_f / total_scans.to_f * 100).round(0)
 
-    medium_nutrition_number = statisitics_number.where(foods: {nutrition_grade: 'medium'}).count
+    medium_nutrition_number = statisitics_number.where(foods: {nutrition_grade: 'Medium'}).count
     medium_nutrition_percentage = (medium_nutrition_number.to_f / total_scans.to_f * 100).round(0)
 
-    good_nutrition_number = statisitics_number.where(foods: {nutrition_grade: 'good'}).count
+    good_nutrition_number = statisitics_number.where(foods: {nutrition_grade: 'Good'}).count
     good_nutrition_percentage = (good_nutrition_number.to_f / total_scans.to_f * 100).round(0)
 
-    very_good_nutrition_number = statisitics_number.where(foods: {nutrition_grade: 'very_good'}).count
+    very_good_nutrition_number = statisitics_number.where(foods: {nutrition_grade: 'Very Good'}).count
     very_good_nutrition_percentage = (very_good_nutrition_number.to_f / total_scans.to_f * 100).round(0)
 
      render json: {
