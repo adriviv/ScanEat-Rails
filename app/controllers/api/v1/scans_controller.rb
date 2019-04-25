@@ -15,7 +15,7 @@ class Api::V1::ScansController < Api::V1::BaseController
 
     @food = Food.find_or_create_by(nutrician_info)
     @food.save
-    @scan = Scan.find_or_create_by(user_id: @user.id, food_id: @food.id)
+    @scan = Scan.new(user_id: @user.id, food_id: @food.id)
 
     render json: @food, status: :created if @scan.save
 
